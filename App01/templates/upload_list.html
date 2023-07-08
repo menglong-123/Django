@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    <title>文件上传列表</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="text" name="username">
+        <input type="file" name="avatar">
+        <input type="submit" value="提 交">
+    </form>
+    </div>
+{% endblock %}

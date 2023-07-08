@@ -1,0 +1,138 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    <title>任务列表</title>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">新建任务</div>
+            <div class="panel-body">
+
+                <form id="formAdd">
+                    <div>
+                        {% for field in form %}
+                            <div class="col-xs-6 " style="position: relative; margin-bottom: 20px;">
+                                <label>{{ field.label }}</label>
+                                {{ field }}
+                                <span style="color: red; position: absolute;" class="error-msg"></span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-xs-12">
+                        <input type="button" class="btn btn-primary" id="btn" value="提 交">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">任务列表</div>
+            <div class="panel-body">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>任务</th>
+                        <th>详细信息</th>
+                        <th>级别</th>
+                        <th>负责人</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for obj in query_set %}
+                        <tr>
+                            <th scope="row">{{ obj.id }}</th>
+                            <td>{{ obj.title }}</td>
+                            <td>{{ obj.detail }}</td>
+                            <td>{{ obj.get_level_display }}</td>
+                            <td>{{ obj.user }}</td>
+                            <td>
+                                <a class="btn btn-primary btn-xs" href="#">编辑</a>
+                                <a class="btn btn-danger btn-xs" href="/task/{{ obj.id }}/delete/">删除</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <ul class="pagination">
+                    {{ page_string }}
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        $(function () {
+            $("#btn2").click(function () {
+                $.ajax({
+                    url: "/task/ajax/",
+                    type: "post",
+                    data: $('#form').serialize(),
+                    dataType: "JSON",
+                    success: function (res) {
+                        console.log(res);
+                        console.log(res.status);
+                        console.log(res.data);
+
+                    }
+                })
+            })
+
+            $("#btn1").click(function () {
+                $.ajax({
+                    url: "/task/ajax/",
+                    type: "post",
+                    data: {
+                        n1: 123,
+                        n2: 456
+                    },
+                    dataType: "JSON",
+                    success: function (res) {
+                        console.log(res);
+                        console.log(res.status);
+                        console.log(res.data);
+
+                    }
+                })
+            })
+
+            $("#btn").click(function () {
+                $('.error-msg').text("");
+
+                $.ajax({
+                    url: "/task/add/",
+                    type: "post",
+                    data: $('#formAdd').serialize(),
+                    dataType: "JSON",
+                    success: function (res) {
+                        if (res.status) {
+                            // 清空form表单
+                            // $("#formAdd").reset();
+                            alert('添加成功');
+                            // 用JS实现页面刷新
+                            location.reload();
+                        } else {
+                            // 输出错误
+                            $.each(res.errors, function (name, data) {
+                                $("#id_" + name).next().text(data[0]);
+                            })
+                        }
+                    }
+                })
+            })
+        })
+
+    </script>
+{% endblock %}

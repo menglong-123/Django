@@ -1,0 +1,83 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    <title>添加用户</title>
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">添加用户</h3>
+            </div>
+            <div class="panel-body">
+                <form method="post" action="/user/add/">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>姓名</label>
+                        <input type="text" class="form-control" placeholder="姓名" name="name">
+                    </div>
+
+                    <div class="form-group">
+                        <label>密码</label>
+                        <input type="text" class="form-control" placeholder="密码" name="password">
+                    </div>
+
+                    <div class="form-group">
+                        <label>年龄</label>
+                        <input type="text" class="form-control" placeholder="年龄" name="age">
+                    </div>
+
+                    <div class="form-group">
+                        <label>性别</label>
+                        <select class="form-control" name="gender">
+                            {% for item in gender_choices %}
+                                <option value="{{ item.0 }}">{{ item.1 }}</option>
+                            {% endfor%}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>账户余额</label>
+                        <input type="text" class="form-control" placeholder="账户余额" name="account">
+                    </div>
+
+                    <div class="form-group" >
+                        <label>创建时间</label>
+                        <input id="dt" autocomplete="false" type="text" class="form-control" placeholder="创建时间" name="create_time">
+                    </div>
+                    <div class="form-group">
+                        <label>部门</label>
+                        <select class="form-control" name="department">
+                            {% for item in depart %}
+                                <option value="{{ item.id }}">{{ item.title }}</option>
+                            {% endfor%}
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">提 交</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js%}
+    <script src= "{% static 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN.js' %}"></script>
+    <script>
+        $(function (){
+            $('#dt').datepicker({
+                format:'yyyy-mm-dd',
+                startData: '0',
+                language:'zh-CN',
+                autoclose: true
+            });
+        })
+    </script>
+{% endblock %}

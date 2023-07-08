@@ -1,0 +1,71 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    <title>用户列表</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div style="margin-bottom: 10px">
+            <a class="btn btn-success" href="/user/add">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                添加用户
+            </a>
+            <a class="btn btn-success" href="/user/model/form/add">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                添加用户ModelForm
+            </a>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                用户列表
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>姓名</th>
+                        <th>密码</th>
+                        <th>年龄</th>
+                        <th>性别</th>
+                        <th>账户余额</th>
+                        <th>创建时间</th>
+                        <th>部门</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for obj in list %}
+                        <tr>
+                            <th scope="row">{{ obj.id }}</th>
+                            <td>{{ obj.name }}</td>
+                            <td>{{ obj.password }}</td>
+                            <td>{{ obj.age }}</td>
+                            <td>{{ obj.get_gender_display }}</td>
+                            <td>{{ obj.account }}</td>
+                            <td>{{ obj.create_time|date:"Y-m-d" }}</td>
+                            <td>{{ obj.depart.title }}</td>
+                            <td>
+                                <a class="btn btn-primary btn-xs" href="/user/{{ obj.id }}/edit/">编辑</a>
+                                <a class="btn btn-danger btn-xs" href="/user/{{ obj.id }}/delete/">删除</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div style="text-align: center;">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+
+                    {{ page_string }}
+
+                </ul>
+            </nav>
+        </div>
+    </div>
+{% endblock %}

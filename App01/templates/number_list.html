@@ -1,0 +1,78 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    <title>靓号列表</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div style="margin-bottom: 10px" class="clearfix">
+            <a class="btn btn-success" href="/number/add">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                添加靓号
+            </a>
+            <div style="float:right; width: 300px">
+                <form method="get">
+                    <div class="input-group">
+
+                        <input type="text" class="form-control" placeholder="搜索" name="q" value="{{ value }}">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                靓号列表
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>号码</th>
+                        <th>价格</th>
+                        <th>等级</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for obj in list %}
+                        <tr>
+                            <th scope="row">{{ obj.id }}</th>
+                            <td>{{ obj.phone_number }}</td>
+                            <td>{{ obj.price }}</td>
+                            <td>{{ obj.get_level_display }}</td>
+                            <td>{{ obj.get_status_display }}</td>
+                            <td>
+                                <a class="btn btn-primary btn-xs" href="/number/{{ obj.id }}/edit/">编辑</a>
+                                <a class="btn btn-danger btn-xs" href="/number/{{ obj.id }}/delete/">删除</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <nav aria-label="Page navigation">
+            <ul class="pagination">
+
+                {{ page_string }}
+
+
+
+            </ul>
+        </nav>
+        </div>
+
+    </div>
+{% endblock %}

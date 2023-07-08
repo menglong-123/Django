@@ -1,0 +1,63 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    <title>城市列表</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+
+        <div style="margin-bottom: 10px">
+            <a class="btn btn-success" href="/city/add">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                添加城市
+            </a>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                城市列表
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>名称</th>
+                        <th>人口</th>
+                        <th>LOGO</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in query_set %}
+                        <tr>
+                            <th scope="row">{{ item.id }}</th>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.count }}</td>
+                            <td>
+                                <img src="/media/{{ item.img }}" style="height: 80px;">
+                            </td>
+                            <td>
+                                <a class="btn btn-primary btn-xs" href="/depart/{{ item.id }}/edit/">编辑</a>
+                                <a class="btn btn-danger btn-xs" href="/depart/delete/?nid={{ item.id }}">删除</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div style="text-align: center;">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+
+                    {{ page_string }}
+
+                </ul>
+            </nav>
+        </div>
+        </div>
+
+    </div>
+{% endblock %}
